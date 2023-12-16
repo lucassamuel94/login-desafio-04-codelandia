@@ -1,10 +1,13 @@
-import type { Config } from 'tailwindcss'
+/** @type {import('tailwindcss').Config} */
 
+import type { Config } from 'tailwindcss'
 const config: Config = {
+  darkMode: ["class"],
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
   theme: {
     container: {
@@ -21,19 +24,41 @@ const config: Config = {
       }
     },
     fontFamily: {
-      sans: ['var(--font-sans)','sans-serif'],
-      heading: ['var(--font-heading)','serif'],
+      sans: ['var(--font-sans)', 'sans-serif']
+    },
+    colors: {
+      brand: {
+        DEFAULT: '#1E9E6A',
+        background: '#F3FFF2'
+      },
+      gray: {
+        10: '#1A202C',
+        20: '#656769',
+        30: '#E8E8E8',
+        40: '#F7FAFC',
+        50: '#FFFFFF',
+      },
+      white: '#fff',
     },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      keyframes: {
+        "accordion-down": {
+          from: { height: '0' },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: '0' },
+        },
       },
-
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
   plugins: [
+    require("tailwindcss-animate"),
     require('@tailwindcss/container-queries'),
     require('@tailwindcss/forms'),
     require('tailwind-scrollbar'),
