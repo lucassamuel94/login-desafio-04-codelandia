@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className='scroll-smooth' suppressHydrationWarning>
       <body
-        className={cn('min-h-screen font-sans antialiased bg-white text-dark-10',
+        className={cn('min-h-screen font-sans antialiased bg-white text-gray-10',
           fontSans.variable
         )}>
         {children}
