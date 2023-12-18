@@ -39,6 +39,7 @@ const config: Config = {
         50: '#FFFFFF',
       },
       white: '#fff',
+      error: '#FF7276'
     },
     extend: {
       keyframes: {
