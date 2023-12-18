@@ -1,4 +1,4 @@
-import { FormLogin } from "@/components/form-login";
+import { FormLogin } from "@/components/form/form-login";
 import Link from "next/link";
 
 export default function Home() {

@@ -15,15 +15,16 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 import Link from "next/link"
-import { Checkbox } from "./ui/checkbox"
-import { Label } from "./ui/label"
+import { Checkbox } from "../ui/checkbox"
+import { Label } from "../ui/label"
 
 const formSchema = z.object({
-  email: z.string().min(2, {
+  email: z.string().min(1, {
     message: "Digite uma e-mail válido."
   }).email('Digite uma e-mail válido'),
-  password: z.string().min(2, {
+  password: z.string().min(8, {
     message: "Sua senha precisar ter no mínimo 8 caracteres.",
   }),
 })
@@ -55,7 +56,7 @@ export function FormLogin({ className }: FormLoginProps) {
             <FormItem>
               <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input placeholder="exemplo@gmail.com" {...field} />
+                <Input placeholder="exemplo@gmail.com" {...field} type="email" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,7 +71,7 @@ export function FormLogin({ className }: FormLoginProps) {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <Input placeholder="0123456789" {...field} />
+                  <Input placeholder="0123456789" {...field} type="password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -93,7 +94,11 @@ export function FormLogin({ className }: FormLoginProps) {
 
         <div className="mt-14 space-y-6">
           <Button type="submit">Entrar na conta</Button>
-          <Button variant={'secondary'}>Ou faça login com o Google</Button>
+          <Button variant={'secondary'}>
+            <Image src='icon-login-google.svg' alt='Ícone de login google' width={24} height={24} />
+            Ou faça login com o Google
+
+          </Button>
         </div>
       </form>
     </Form>
