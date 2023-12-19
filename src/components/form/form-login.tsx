@@ -1,5 +1,5 @@
 "use client"
-import { setCookie } from 'cookies-next'
+import { getCookie, setCookie } from 'cookies-next'
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { auth, cn } from "@/lib"
-import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth, cn, provider } from "@/lib"
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 
 import { Button, Checkbox, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label } from "@/components/ui"
 
@@ -52,9 +52,28 @@ export function FormLogin({ className }: FormLoginProps) {
       });
   }
 
+  function onLoginGoogle() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+
+        setCookie('token', credential?.idToken)
+        getCookie('userName')
+        setCookie('userName', result.user.displayName)
+
+        router.push('/profile')
+      }).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.customData.email;
+
+        console.log(errorCode, errorMessage, email)
+      });
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className)}>
+      <form action={'#'} className={cn(className)}>
         <FormField
           control={form.control}
           name="email"
@@ -99,8 +118,8 @@ export function FormLogin({ className }: FormLoginProps) {
         />
 
         <div className="mt-14 space-y-6">
-          <Button type="submit">Entrar na conta</Button>
-          <Button variant={'secondary'}>
+          <Button onClick={form.handleSubmit(onSubmit)} type="submit">Entrar na conta</Button>
+          <Button onClick={onLoginGoogle} variant={'secondary'}>
             <Image src='icon-login-google.svg' alt='Ícone de login google' width={24} height={24} />
             Ou faça login com o Google
 
