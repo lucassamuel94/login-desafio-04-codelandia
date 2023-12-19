@@ -119,13 +119,14 @@ export function FormLogin({ className }: FormLoginProps) {
 
         <div className="mt-14 space-y-6">
           <Button onClick={form.handleSubmit(onSubmit)} type="submit">Entrar na conta</Button>
-          <Button onClick={onLoginGoogle} variant={'secondary'}>
-            <Image src='icon-login-google.svg' alt='Ícone de login google' width={24} height={24} />
-            Ou faça login com o Google
-
-          </Button>
         </div>
       </form>
+
+      <Button className='mt-4' onClick={onLoginGoogle} variant={'secondary'}>
+        <Image src='icon-login-google.svg' alt='Ícone de login google' width={24} height={24} />
+        Ou faça login com o Google
+
+      </Button>
     </Form>
   )
 }
