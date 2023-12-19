@@ -1,24 +1,17 @@
 "use client"
+import Image from "next/image"
+import Link from "next/link"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { auth } from "@/lib/firebase"
 import { cn } from "@/lib/utils"
-import Image from "next/image"
-import Link from "next/link"
-import { Checkbox } from "../ui/checkbox"
-import { Label } from "../ui/label"
+import { signInWithEmailAndPassword } from "firebase/auth"
+
+import { Button, Checkbox, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label } from "@/components/ui"
+import useProfileStore from "@/store/useProfileStore"
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -34,6 +27,8 @@ type FormLoginProps = {
 }
 
 export function FormLogin({ className }: FormLoginProps) {
+  const { setUserLogin, setUserName } = useProfileStore()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +38,19 @@ export function FormLogin({ className }: FormLoginProps) {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    signInWithEmailAndPassword(auth, values.email, values.password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        setUserLogin(true)
+        setUserName(user.displayName!)
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        console.log(errorCode, errorMessage)
+      });
   }
 
   return (
