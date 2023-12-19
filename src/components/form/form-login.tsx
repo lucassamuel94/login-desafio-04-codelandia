@@ -1,17 +1,17 @@
 "use client"
+import { setCookie } from 'cookies-next'
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { auth } from "@/lib/firebase"
-import { cn } from "@/lib/utils"
+import { auth, cn } from "@/lib"
 import { signInWithEmailAndPassword } from "firebase/auth"
 
 import { Button, Checkbox, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label } from "@/components/ui"
-import useProfileStore from "@/store/useProfileStore"
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -27,7 +27,8 @@ type FormLoginProps = {
 }
 
 export function FormLogin({ className }: FormLoginProps) {
-  const { setUserLogin, setUserName } = useProfileStore()
+
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,10 +41,8 @@ export function FormLogin({ className }: FormLoginProps) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        setUserLogin(true)
-        setUserName(user.displayName!)
+        setCookie('token', userCredential.user.getIdToken())
+        router.push('/profile')
       })
       .catch((error) => {
         const errorCode = error.code;
