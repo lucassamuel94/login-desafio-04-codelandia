@@ -32,11 +32,11 @@ Reproduzir layout de uma página de login.
 
 ### Funções do projeto
 
-[x] Login por e-mail e senha. Favor utilizar (exemplo@gmail.com, 0123456789)
-[x] Login por conta Google
-[x] Rotas privadas
-[ ] Criar conta
-[ ] Esqueceu senha
+- [x] Login por e-mail e senha. Favor utilizar (exemplo@gmail.com, 0123456789)
+- [x] Login por conta Google
+- [x] Rotas privadas
+- [ ] Criar conta
+- [ ] Esqueceu senha
 
 ## :art: Layout
 
