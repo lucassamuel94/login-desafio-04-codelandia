@@ -73,7 +73,7 @@ export function FormLogin({ className }: FormLoginProps) {
 
   return (
     <Form {...form}>
-      <form submit={form.handleSubmit(onSubmit)} className={cn(className)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className={cn(className)}>
         <FormField
           control={form.control}
           name="email"
