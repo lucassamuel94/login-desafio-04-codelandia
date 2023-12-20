@@ -73,7 +73,7 @@ export function FormLogin({ className }: FormLoginProps) {
 
   return (
     <Form {...form}>
-      <form action={'#'} className={cn(className)}>
+      <form submit={form.handleSubmit(onSubmit)} className={cn(className)}>
         <FormField
           control={form.control}
           name="email"
@@ -118,7 +118,7 @@ export function FormLogin({ className }: FormLoginProps) {
         />
 
         <div className="mt-14 space-y-6">
-          <Button onClick={form.handleSubmit(onSubmit)} type="submit">Entrar na conta</Button>
+          <Button type="submit">Entrar na conta</Button>
         </div>
       </form>
 
